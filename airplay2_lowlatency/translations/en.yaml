@@ -1,0 +1,31 @@
+---
+configuration:
+  airplay_name:
+    name: Receiver name
+    description: Name shown in the AirPlay device list.
+  audio_profile:
+    name: Audio profile
+    description: >-
+      Standard is recommended. Minimal has the lowest latency but may click on
+      unstable networks; stable uses more buffering.
+  custom_buffer_seconds:
+    name: Custom buffer (seconds)
+    description: >-
+      Used only with the custom profile. Select a value from 0.08 to 0.50
+      seconds.
+  offset_seconds:
+    name: Audio offset (seconds)
+    description: >-
+      Advanced correction for synchronisation. Leave at zero unless measured
+      playback requires an adjustment.
+  interpolation:
+    name: Interpolation
+    description: Advanced resampling mode. Auto is recommended.
+  default_airplay_volume:
+    name: Default AirPlay volume (dB)
+    description: >-
+      Initial per-stream volume from -30 to 0 dB. This does not change the
+      Home Assistant device volume.
+  diagnostics:
+    name: Diagnostics
+    description: Enables verbose Shairport Sync statistics in the add-on log.
