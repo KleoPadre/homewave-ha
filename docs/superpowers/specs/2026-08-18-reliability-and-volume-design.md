@@ -37,10 +37,10 @@ across all supported architectures.
 - `volume_max_db = 0.0`
 
 `quiet_start` retains the 0 dB ceiling and per-stream-only volume ownership,
-but uses a larger attenuation range. Its purpose is to make the lowest AirPlay
-slider positions perceptibly quieter without changing the Home Assistant sink
-volume. The exact Shairport Sync value is selected from its documented,
-supported configuration and covered by rendered-config tests.
+but uses a 90 dB attenuation range instead of 60 dB. Its purpose is to make
+the lowest AirPlay slider positions perceptibly quieter without changing the
+Home Assistant sink volume. Shairport Sync documents an allowed range of 30 to
+150 dB, so both curves remain within its supported configuration.
 
 The setting is validated before Shairport Sync is started. Invalid values fail
 with an explicit `volume_curve` error. Existing installations that do not yet
