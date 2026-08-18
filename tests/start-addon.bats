@@ -5,6 +5,7 @@ setup() {
   export OUTPUT_CONFIG="$BATS_TEST_TMPDIR/shairport-sync.conf"
   export SHAIRPORT_SYNC_BIN=true
   export WAIT_FOR_AVAHI=false
+  export START_REQUIRED_SERVICES=false
 }
 
 write_options() {

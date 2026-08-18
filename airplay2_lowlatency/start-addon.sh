@@ -53,6 +53,12 @@ buffer_for_profile() {
   esac
 }
 
+start_required_services() {
+  dbus-daemon --system --fork
+  avahi-daemon --no-chroot --daemonize
+  nqptp &
+}
+
 main() {
   [[ -r "$CONFIG_PATH" ]] || fail "options file is unavailable"
   [[ -r "$TEMPLATE_PATH" ]] || fail "configuration template is unavailable"
@@ -94,7 +100,8 @@ main() {
       -e 's/@@OFFSET_SECONDS@@/'"$(printf '%s' "$offset" | escape_for_sed)"'/g' >"$rendered_file"
 
   install -Dm644 "$rendered_file" "$OUTPUT_CONFIG"
-  if [[ "${WAIT_FOR_AVAHI:-true}" == true ]]; then
+  if [[ "${START_REQUIRED_SERVICES:-true}" == true ]]; then
+    start_required_services
     until [[ -f "$AVAHI_PID_PATH" ]]; do
       echo "HomeWave: waiting for Avahi"
       sleep 1
