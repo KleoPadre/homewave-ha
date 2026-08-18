@@ -33,3 +33,15 @@
 
   [ "$status" -eq 0 ]
 }
+
+@test "manifest defaults to the stable profile with compact diagnostics" {
+  run ruby -e '
+    require "yaml"
+    config = YAML.load_file(ARGV.fetch(0))
+    options = config.fetch("options")
+    abort "stable profile must be the default" unless options.fetch("audio_profile") == "stable"
+    abort "diagnostics must be disabled by default" unless options.fetch("diagnostics") == false
+  ' "$BATS_TEST_DIRNAME/../airplay2_lowlatency/config.yaml"
+
+  [ "$status" -eq 0 ]
+}

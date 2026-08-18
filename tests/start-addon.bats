@@ -89,5 +89,7 @@ EOF
   run bash "$BATS_TEST_DIRNAME/../airplay2_lowlatency/start-addon.sh"
 
   [ "$status" -eq 0 ]
-  ! grep -q 'statistics' "$OUTPUT_CONFIG"
+  grep -F 'log_output_to = "stdout";' "$OUTPUT_CONFIG"
+  grep -F 'statistics = "no";' "$OUTPUT_CONFIG"
+  grep -F 'log_verbosity = 1;' "$OUTPUT_CONFIG"
 }

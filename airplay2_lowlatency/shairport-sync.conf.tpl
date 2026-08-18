@@ -9,6 +9,10 @@ general =
   volume_max_db = 0.0;
   audio_backend_buffer_desired_length_in_seconds = @@BUFFER_SECONDS@@;
   audio_backend_latency_offset_in_seconds = @@OFFSET_SECONDS@@;
+};
+
+diagnostics =
+{
 @@DIAGNOSTICS@@
 };
 

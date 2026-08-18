@@ -1,6 +1,6 @@
 ---
 name: HomeWave AirPlay 2
-version: 0.1.2
+version: 0.1.3
 slug: airplay2_lowlatency
 description: Low-latency AirPlay 2 receiver using Home Assistant PulseAudio.
 url: https://github.com/KleoPadre/homewave-ha
@@ -15,7 +15,7 @@ host_network: true
 audio: true
 options:
   airplay_name: HomeWave
-  audio_profile: standard
+  audio_profile: stable
   custom_buffer_seconds: 0.15
   offset_seconds: 0.0
   interpolation: auto

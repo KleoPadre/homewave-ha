@@ -89,6 +89,8 @@ main() {
 
   if [[ "$diagnostics" == true ]]; then
     printf '  log_output_to = "stdout";\n  statistics = "yes";\n  log_verbosity = 2;\n' >"$diagnostics_file"
+  else
+    printf '  log_output_to = "stdout";\n  statistics = "no";\n  log_verbosity = 1;\n' >"$diagnostics_file"
   fi
 
   sed '/@@DIAGNOSTICS@@/r '"$diagnostics_file"$'\n/@@DIAGNOSTICS@@/d' "$TEMPLATE_PATH" |
