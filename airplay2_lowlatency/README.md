@@ -32,6 +32,10 @@ Latency profiles are `minimal` (0.10 seconds), `standard` (0.15 seconds),
 for a stable wired network but may click on an unstable network. If standard
 clicks, enable diagnostics and try stable before lowering the buffer.
 
+AirPlay's `-30` to `0` dB control range is mapped to a 60 dB Shairport Sync
+attenuation range. This makes the lowest source setting practically silent and
+the highest setting full output, while retaining a flat, per-stream curve.
+
 ## Behaviour and troubleshooting
 
 HomeWave uses only the Home Assistant PulseAudio socket. It never falls back to

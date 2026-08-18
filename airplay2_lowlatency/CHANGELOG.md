@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2
+
+- Map the AirPlay volume control to a 60 dB per-stream attenuation range for a
+  practical silent minimum and full-output maximum.
+
 ## 0.1.1
 
 - Replace inherited s6, SSH/SFTP, and syslog services with the minimal runtime

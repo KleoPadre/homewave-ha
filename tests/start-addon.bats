@@ -69,7 +69,7 @@ EOF
   grep -F 'output_backend = "pa";' "$OUTPUT_CONFIG"
   grep -F 'server = "unix:///run/audio/pulse.sock";' "$OUTPUT_CONFIG"
   grep -F 'volume_control_profile = "flat";' "$OUTPUT_CONFIG"
-  grep -F 'volume_range_db = 30;' "$OUTPUT_CONFIG"
+  grep -F 'volume_range_db = 60;' "$OUTPUT_CONFIG"
   grep -F 'volume_max_db = 0.0;' "$OUTPUT_CONFIG"
   grep -F 'default_airplay_volume = -24.0;' "$OUTPUT_CONFIG"
   grep -F 'allow_session_interruption = "yes";' "$OUTPUT_CONFIG"
