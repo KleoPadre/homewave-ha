@@ -1,2 +1,22 @@
-.worktrees/
-.superpowers/
+# Operating-system and editor files
+.DS_Store
+.idea/
+.vscode/
+
+# Local secrets and environment variables
+.env
+.env.*
+!.env.example
+
+# Temporary test and build outputs
+*.log
+.pytest_cache/
+coverage/
+dist/
+tmp/
+
+# Local AI-agent working data
+.codex/
+.agents/
+.claude/
+.cursor/

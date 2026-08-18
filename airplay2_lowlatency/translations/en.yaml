@@ -6,7 +6,7 @@ configuration:
   audio_profile:
     name: Audio profile
     description: >-
-      Standard is recommended. Minimal has the lowest latency but may click on
+      Stable is recommended. Minimal has the lowest latency but may click on
       unstable networks; stable uses more buffering.
   custom_buffer_seconds:
     name: Custom buffer (seconds)

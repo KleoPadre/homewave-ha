@@ -5,6 +5,7 @@ setup() {
   export OUTPUT_CONFIG="$BATS_TEST_TMPDIR/shairport-sync.conf"
   export SHAIRPORT_SYNC_BIN=true
   export WAIT_FOR_AVAHI=false
+  export START_REQUIRED_SERVICES=false
 }
 
 write_options() {
@@ -68,7 +69,7 @@ EOF
   grep -F 'output_backend = "pa";' "$OUTPUT_CONFIG"
   grep -F 'server = "unix:///run/audio/pulse.sock";' "$OUTPUT_CONFIG"
   grep -F 'volume_control_profile = "flat";' "$OUTPUT_CONFIG"
-  grep -F 'volume_range_db = 30;' "$OUTPUT_CONFIG"
+  grep -F 'volume_range_db = 60;' "$OUTPUT_CONFIG"
   grep -F 'volume_max_db = 0.0;' "$OUTPUT_CONFIG"
   grep -F 'default_airplay_volume = -24.0;' "$OUTPUT_CONFIG"
   grep -F 'allow_session_interruption = "yes";' "$OUTPUT_CONFIG"
@@ -88,5 +89,7 @@ EOF
   run bash "$BATS_TEST_DIRNAME/../airplay2_lowlatency/start-addon.sh"
 
   [ "$status" -eq 0 ]
-  ! grep -q 'statistics' "$OUTPUT_CONFIG"
+  grep -F 'log_output_to = "stdout";' "$OUTPUT_CONFIG"
+  grep -F 'statistics = "no";' "$OUTPUT_CONFIG"
+  grep -F 'log_verbosity = 1;' "$OUTPUT_CONFIG"
 }
