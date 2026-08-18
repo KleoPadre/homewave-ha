@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv bashio
+#!/usr/bin/env bash
 # shellcheck shell=bash
 
 set -euo pipefail
@@ -6,6 +6,8 @@ set -euo pipefail
 CONFIG_PATH="${CONFIG_PATH:-/data/options.json}"
 OUTPUT_CONFIG="${OUTPUT_CONFIG:-/run/shairport-sync.conf}"
 SHAIRPORT_SYNC_BIN="${SHAIRPORT_SYNC_BIN:-shairport-sync}"
+AVAHI_PID_PATH="${AVAHI_PID_PATH:-/var/run/avahi-daemon/pid}"
+AUDIO_CHECK_PATH="${AUDIO_CHECK_PATH:-/etc/cont-init.d/10-audio-check.sh}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TEMPLATE_PATH="${TEMPLATE_PATH:-${SCRIPT_DIR}/shairport-sync.conf.tpl}"
 
@@ -54,6 +56,9 @@ buffer_for_profile() {
 main() {
   [[ -r "$CONFIG_PATH" ]] || fail "options file is unavailable"
   [[ -r "$TEMPLATE_PATH" ]] || fail "configuration template is unavailable"
+  if [[ -x "$AUDIO_CHECK_PATH" ]]; then
+    "$AUDIO_CHECK_PATH"
+  fi
 
   local airplay_name profile custom_buffer offset interpolation volume diagnostics buffer
   airplay_name="$(read_option '.airplay_name')"
@@ -89,6 +94,12 @@ main() {
       -e 's/@@OFFSET_SECONDS@@/'"$(printf '%s' "$offset" | escape_for_sed)"'/g' >"$rendered_file"
 
   install -Dm644 "$rendered_file" "$OUTPUT_CONFIG"
+  if [[ "${WAIT_FOR_AVAHI:-true}" == true ]]; then
+    until [[ -f "$AVAHI_PID_PATH" ]]; do
+      echo "HomeWave: waiting for Avahi"
+      sleep 1
+    done
+  fi
   exec "$SHAIRPORT_SYNC_BIN" -c "$OUTPUT_CONFIG"
 }
 
