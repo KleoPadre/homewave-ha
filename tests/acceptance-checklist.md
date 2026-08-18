@@ -1,4 +1,4 @@
-# HomeWave 0.1.5 Real-device Acceptance Checklist
+# HomeWave 0.1.6 Real-device Acceptance Checklist
 
 Complete this checklist on Home Assistant OS before calling the add-on stable.
 
@@ -9,10 +9,8 @@ Complete this checklist on Home Assistant OS before calling the add-on stable.
       `HomeWave: nqptp is ready`.
 - [ ] With the two connected speakers, play stereo audio from an iPhone, iPad,
       Mac, or Apple TV and confirm the expected channels are audible.
-- [ ] Confirm that source discovery, playback start, and stop work after the
-      Shairport Sync 5.2.1 upgrade.
-- [ ] If a future Home Assistant sink supports 5.1 or 7.1, verify that layout
-      separately; a two-channel sink is expected to receive a stereo mixdown.
+- [ ] Confirm Apple TV playback starts and remains audible after selecting
+      HomeWave as its AirPlay output.
 - [ ] Play audio from iPhone for ten minutes on `standard`; record clicks,
       underruns, overruns, and stop time.
 - [ ] Play audio from Mac for ten minutes on `standard`; record the same results.

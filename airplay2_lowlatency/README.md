@@ -4,11 +4,9 @@ HomeWave is a Home Assistant OS add-on that receives AirPlay 2 audio and sends
 it to the native Home Assistant PulseAudio service. It supports `amd64`,
 `aarch64`, and `armv7`.
 
-HomeWave uses Shairport Sync 5.2.1. It automatically negotiates stereo or
-multichannel output with the Home Assistant PulseAudio sink. A two-channel sink
-receives a compatible stereo mixdown; 5.1 or 7.1 output requires a sink that
-accepts that channel layout. Dolby Atmos and 96/192 kHz lossless AirPlay are
-not supported by AirPlay 2.
+HomeWave uses Shairport Sync 4.3.7 for reliable Apple TV AirPlay 2 playback.
+The current add-on configuration is intended for a two-channel Home Assistant
+PulseAudio sink.
 
 ## Installation
 

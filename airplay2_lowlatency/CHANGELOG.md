@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.6
+
+- Revert Shairport Sync to 4.3.7 to restore reliable Apple TV AirPlay 2
+  buffered-audio playback.
+
 ## 0.1.5
 
 - Upgrade Shairport Sync to 5.2.1 with its current AirPlay 2 and nqptp runtime.

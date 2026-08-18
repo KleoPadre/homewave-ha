@@ -117,9 +117,9 @@ main() {
   trap 'rm -f "$diagnostics_file" "$rendered_file"' EXIT
 
   if [[ "$diagnostics" == true ]]; then
-    printf '  statistics = "yes";\n  log_verbosity = 2;\n' >"$diagnostics_file"
+    printf '  log_output_to = "stdout";\n  statistics = "yes";\n  log_verbosity = 2;\n' >"$diagnostics_file"
   else
-    printf '  statistics = "no";\n  log_verbosity = 1;\n' >"$diagnostics_file"
+    printf '  log_output_to = "stdout";\n  statistics = "no";\n  log_verbosity = 1;\n' >"$diagnostics_file"
   fi
 
   sed '/@@DIAGNOSTICS@@/r '"$diagnostics_file"$'\n/@@DIAGNOSTICS@@/d' "$TEMPLATE_PATH" |

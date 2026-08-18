@@ -1,7 +1,7 @@
 general =
 {
   name = "@@AIRPLAY_NAME@@";
-  output_backend = "pulseaudio";
+  output_backend = "pa";
   interpolation = "@@INTERPOLATION@@";
   default_airplay_volume = @@DEFAULT_AIRPLAY_VOLUME@@;
   volume_control_profile = "@@VOLUME_CONTROL_PROFILE@@";
@@ -21,7 +21,7 @@ sessioncontrol =
   allow_session_interruption = "yes";
 };
 
-pulseaudio =
+pa =
 {
   server = "unix:///run/audio/pulse.sock";
 };
