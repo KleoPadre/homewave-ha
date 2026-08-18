@@ -20,3 +20,6 @@ tmp/
 .agents/
 .claude/
 .cursor/
+
+# Локальные изолированные рабочие деревья Git
+.worktrees/
