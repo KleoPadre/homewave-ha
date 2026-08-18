@@ -29,3 +29,8 @@ configuration:
   diagnostics:
     name: Diagnostics
     description: Enables verbose Shairport Sync statistics in the add-on log.
+  volume_curve:
+    name: Volume curve
+    description: >-
+      Balanced preserves the existing 60 dB response. Quiet start uses 90 dB
+      to make the bottom of the AirPlay slider quieter.

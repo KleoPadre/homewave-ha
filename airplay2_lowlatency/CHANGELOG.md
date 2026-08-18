@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.4
+
+- Add selectable balanced (60 dB) and quiet-start (90 dB) per-stream volume curves.
+- Report concise readiness status for PulseAudio, D-Bus, Avahi, and nqptp at startup.
+- Add troubleshooting guidance and expand the real-device acceptance checklist.
+
 ## 0.1.3
 
 - Use the stable latency profile by default.

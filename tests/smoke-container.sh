@@ -23,7 +23,7 @@ startup_status=$?
 set -e
 
 [[ $startup_status -ne 0 ]]
-[[ "$startup_output" == *"Home Assistant PulseAudio socket is unavailable."* ]]
+[[ "$startup_output" == *"HomeWave: Home Assistant PulseAudio socket is unavailable."* ]]
 [[ "$startup_output" != *"s6-rc:"* ]]
 [[ "$startup_output" != *"s6-socklog:"* ]]
 [[ "$startup_output" != *"ssh.service"* ]]

@@ -45,3 +45,25 @@
 
   [ "$status" -eq 0 ]
 }
+
+@test "manifest defaults to a balanced volume curve" {
+  run ruby -e '
+    require "yaml"
+    config = YAML.load_file(ARGV.fetch(0))
+    options = config.fetch("options")
+    abort "missing volume_curve" unless options.fetch("volume_curve") == "balanced"
+    abort "invalid volume_curve schema" unless config.fetch("schema").fetch("volume_curve") == "list(balanced|quiet_start)"
+  ' "$BATS_TEST_DIRNAME/../airplay2_lowlatency/config.yaml"
+
+  [ "$status" -eq 0 ]
+}
+
+@test "English add-on documentation covers curves and health checks" {
+  readme="$BATS_TEST_DIRNAME/../airplay2_lowlatency/README.md"
+  run rg -F 'quiet_start' "$readme"
+  [ "$status" -eq 0 ]
+  run rg -F 'PulseAudio socket is ready' "$readme"
+  [ "$status" -eq 0 ]
+  run rg -F 'Avahi is ready' "$readme"
+  [ "$status" -eq 0 ]
+}

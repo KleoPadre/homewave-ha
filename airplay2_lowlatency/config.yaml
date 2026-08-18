@@ -1,6 +1,6 @@
 ---
 name: HomeWave AirPlay 2
-version: 0.1.3
+version: 0.1.4
 slug: airplay2_lowlatency
 description: Low-latency AirPlay 2 receiver using Home Assistant PulseAudio.
 url: https://github.com/KleoPadre/homewave-ha
@@ -21,6 +21,7 @@ options:
   interpolation: auto
   default_airplay_volume: -24.0
   diagnostics: false
+  volume_curve: balanced
 schema:
   airplay_name: str?
   audio_profile: list(minimal|standard|stable|custom)
@@ -29,3 +30,4 @@ schema:
   interpolation: list(auto|basic|soxr)
   default_airplay_volume: float(-30,0)
   diagnostics: bool
+  volume_curve: list(balanced|quiet_start)

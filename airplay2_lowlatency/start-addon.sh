@@ -53,10 +53,36 @@ buffer_for_profile() {
   esac
 }
 
-start_required_services() {
-  dbus-daemon --system --fork
-  avahi-daemon --no-chroot --daemonize
+volume_settings_for_curve() {
+  case "$1" in
+    balanced) printf 'flat 60' ;;
+    quiet_start) printf 'flat 90' ;;
+    *) fail "volume_curve must be balanced or quiet_start" ;;
+  esac
+}
+
+start_dbus() {
+  dbus-daemon --system --fork || fail "D-Bus failed to start"
+  echo "HomeWave: D-Bus is ready"
+}
+
+start_avahi() {
+  avahi-daemon --no-chroot --daemonize || fail "Avahi failed to start"
+  local attempts=0
+  until [[ -f "$AVAHI_PID_PATH" ]]; do
+    ((attempts += 1))
+    ((attempts <= 20)) || fail "Avahi did not become ready"
+    sleep 1
+  done
+  echo "HomeWave: Avahi is ready"
+}
+
+start_nqptp() {
   nqptp &
+  local nqptp_pid=$!
+  sleep 1
+  kill -0 "$nqptp_pid" 2>/dev/null || fail "nqptp failed to stay running"
+  echo "HomeWave: nqptp is ready"
 }
 
 main() {
@@ -66,7 +92,7 @@ main() {
     "$AUDIO_CHECK_PATH"
   fi
 
-  local airplay_name profile custom_buffer offset interpolation volume diagnostics buffer
+  local airplay_name profile custom_buffer offset interpolation volume diagnostics volume_curve buffer volume_settings volume_profile volume_range
   airplay_name="$(read_option '.airplay_name')"
   profile="$(read_option '.audio_profile')"
   custom_buffer="$(read_option '.custom_buffer_seconds')"
@@ -74,6 +100,7 @@ main() {
   interpolation="$(read_option '.interpolation')"
   volume="$(read_option '.default_airplay_volume')"
   diagnostics="$(read_option '.diagnostics')"
+  volume_curve="$(read_option '.volume_curve')"
 
   [[ -n "$airplay_name" ]] || fail "airplay_name must not be empty"
   [[ "$interpolation" =~ ^(auto|basic|soxr)$ ]] || fail "interpolation is invalid"
@@ -81,6 +108,8 @@ main() {
   is_number_in_range "$volume" -30 0 || fail "default_airplay_volume must be between -30 and 0"
   [[ "$diagnostics" == true || "$diagnostics" == false ]] || fail "diagnostics must be a boolean"
   buffer="$(buffer_for_profile "$profile" "$custom_buffer")"
+  volume_settings="$(volume_settings_for_curve "$volume_curve")"
+  read -r volume_profile volume_range <<<"$volume_settings"
 
   local diagnostics_file rendered_file
   diagnostics_file="$(mktemp)"
@@ -98,16 +127,16 @@ main() {
       -e 's/@@AIRPLAY_NAME@@/'"$(printf '%s' "$airplay_name" | escape_for_sed)"'/g' \
       -e 's/@@INTERPOLATION@@/'"$(printf '%s' "$interpolation" | escape_for_sed)"'/g' \
       -e 's/@@DEFAULT_AIRPLAY_VOLUME@@/'"$(printf '%s' "$volume" | escape_for_sed)"'/g' \
+      -e 's/@@VOLUME_CONTROL_PROFILE@@/'"$(printf '%s' "$volume_profile" | escape_for_sed)"'/g' \
+      -e 's/@@VOLUME_RANGE_DB@@/'"$(printf '%s' "$volume_range" | escape_for_sed)"'/g' \
       -e 's/@@BUFFER_SECONDS@@/'"$(printf '%s' "$buffer" | escape_for_sed)"'/g' \
       -e 's/@@OFFSET_SECONDS@@/'"$(printf '%s' "$offset" | escape_for_sed)"'/g' >"$rendered_file"
 
   install -Dm644 "$rendered_file" "$OUTPUT_CONFIG"
   if [[ "${START_REQUIRED_SERVICES:-true}" == true ]]; then
-    start_required_services
-    until [[ -f "$AVAHI_PID_PATH" ]]; do
-      echo "HomeWave: waiting for Avahi"
-      sleep 1
-    done
+    start_dbus
+    start_avahi
+    start_nqptp
   fi
   exec "$SHAIRPORT_SYNC_BIN" -c "$OUTPUT_CONFIG"
 }

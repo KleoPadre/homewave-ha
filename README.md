@@ -10,8 +10,8 @@ remains the single place to choose the physical output.
 - AirPlay 2 receiver powered by Shairport Sync and nqptp.
 - Native PulseAudio output with no ALSA fallback or duplicate sink selector.
 - Stable, low-latency defaults for `amd64`, `aarch64`, and `armv7`.
-- Per-stream 60 dB volume range: a practical silent minimum and full output at
-  the top of the AirPlay control.
+- Selectable per-stream volume curve: the balanced 60 dB default or the
+  quieter-starting 90 dB option.
 - Compact normal logs and optional diagnostics for troubleshooting.
 
 ## Install
@@ -37,13 +37,23 @@ the host before using HomeWave.
 | `offset_seconds` | `0.0` | Advanced timing correction from -2 to 2 seconds. Leave unchanged unless measured playback requires it. |
 | `interpolation` | `auto` | Resampling mode: auto, basic, or soxr. |
 | `default_airplay_volume` | `-24.0 dB` | Suggested initial source volume. AirPlay's range is mapped to a 60 dB per-stream curve. |
+| `volume_curve` | `balanced` | Per-stream volume response: `balanced` is the 60 dB default; `quiet_start` is an optional 90 dB curve that makes the bottom of the AirPlay slider quieter. |
 | `diagnostics` | `false` | Enables detailed Shairport Sync statistics and debug logs. Keep disabled during normal use. |
 
-## Support and testing
+## Troubleshooting
 
-Use the `stable` profile first. If playback is reliable on a wired network, try
-`standard` or `minimal` for lower latency. If you encounter clicks or dropouts,
-return to `stable`, enable diagnostics, and review the add-on log.
+| Symptom | Recovery action |
+| --- | --- |
+| Receiver is absent | Stop every other AirPlay receiver so only HomeWave remains, then check the add-on log for `HomeWave: Avahi is ready`. |
+| Receiver is visible but silent | Select the required output with Home Assistant's audio-device selector, then check for `HomeWave: PulseAudio socket is ready`. |
+| Clicks or dropouts | Return `audio_profile` to `stable`, enable diagnostics temporarily, and review the add-on log. |
+| Minimum source volume is too loud | Set `volume_curve` to `quiet_start`; it uses a 90 dB per-stream curve. `balanced` remains the 60 dB default. |
+| Investigating an issue | Sanitize logs before sharing them and turn `diagnostics` off after the investigation. |
+
+Normal startup reports `HomeWave: PulseAudio socket is ready`, `HomeWave: D-Bus
+is ready`, `HomeWave: Avahi is ready`, and `HomeWave: nqptp is ready` when its
+prerequisites are available. Use the `stable` profile first; try `standard` or
+`minimal` only after reliable playback on a wired network.
 
 The add-on does not provide MQTT metadata or remote control in the 0.1 release
 series.
