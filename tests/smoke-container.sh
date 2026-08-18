@@ -12,10 +12,13 @@ entrypoint="$(docker image inspect "$IMAGE_TAG" --format '{{json .Config.Entrypo
 [[ "$entrypoint" == '["/run.sh"]' ]]
 
 version="$(docker run --rm --entrypoint shairport-sync "$IMAGE_TAG" -V)"
+[[ "$version" == *5.2.1* ]]
 [[ "$version" == *AirPlay2* ]]
-[[ "$version" == *PA* ]]
-[[ "$version" == *nqptp* ]]
+[[ "$version" == *PulseAudio* ]]
 [[ "$version" == *soxr* ]]
+
+nqptp_version="$(docker run --rm --entrypoint nqptp "$IMAGE_TAG" -V)"
+[[ "$nqptp_version" == *nqptp* ]]
 
 set +e
 startup_output="$(docker run --rm "$IMAGE_TAG" 2>&1)"

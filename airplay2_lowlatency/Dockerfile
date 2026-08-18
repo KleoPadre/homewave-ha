@@ -1,4 +1,4 @@
-FROM mikebrady/shairport-sync:4.3.7
+FROM mikebrady/shairport-sync:5.2.1
 
 RUN apk add --no-cache bash gettext jq
 

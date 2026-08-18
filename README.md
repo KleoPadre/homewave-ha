@@ -55,5 +55,9 @@ is ready`, `HomeWave: Avahi is ready`, and `HomeWave: nqptp is ready` when its
 prerequisites are available. Use the `stable` profile first; try `standard` or
 `minimal` only after reliable playback on a wired network.
 
+Shairport Sync automatically negotiates stereo or multichannel output. With a
+two-channel Home Assistant sink, multichannel content is mixed down to stereo;
+5.1 or 7.1 playback requires a sink that accepts that layout.
+
 The add-on does not provide MQTT metadata or remote control in the 0.1 release
 series.

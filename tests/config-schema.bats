@@ -67,3 +67,7 @@
   run rg -F 'Avahi is ready' "$readme"
   [ "$status" -eq 0 ]
 }
+
+@test "repository documentation is English-only outside Home Assistant localisations" {
+  [ ! -f "$BATS_TEST_DIRNAME/../airplay2_lowlatency/README.ru.md" ]
+}

@@ -61,13 +61,14 @@ EOF
   done
 }
 
-@test "renders native PulseAudio and flat volume controls" {
+@test "renders the Shairport Sync 5 PulseAudio backend and flat volume controls" {
   write_options standard 0.15 false balanced
 
   run bash "$BATS_TEST_DIRNAME/../airplay2_lowlatency/start-addon.sh"
 
   [ "$status" -eq 0 ]
-  grep -F 'output_backend = "pa";' "$OUTPUT_CONFIG"
+  grep -F 'output_backend = "pulseaudio";' "$OUTPUT_CONFIG"
+  grep -F 'pulseaudio =' "$OUTPUT_CONFIG"
   grep -F 'server = "unix:///run/audio/pulse.sock";' "$OUTPUT_CONFIG"
   grep -F 'volume_control_profile = "flat";' "$OUTPUT_CONFIG"
   grep -F 'volume_range_db = 60;' "$OUTPUT_CONFIG"
@@ -82,7 +83,8 @@ EOF
   run bash "$BATS_TEST_DIRNAME/../airplay2_lowlatency/start-addon.sh"
 
   [ "$status" -eq 0 ]
-  grep -F 'log_output_to = "stdout";' "$OUTPUT_CONFIG"
+  run grep -F 'log_output_to = "stdout";' "$OUTPUT_CONFIG"
+  [ "$status" -ne 0 ]
   grep -F 'statistics = "yes";' "$OUTPUT_CONFIG"
   grep -F 'log_verbosity = 2;' "$OUTPUT_CONFIG"
 
@@ -90,7 +92,8 @@ EOF
   run bash "$BATS_TEST_DIRNAME/../airplay2_lowlatency/start-addon.sh"
 
   [ "$status" -eq 0 ]
-  grep -F 'log_output_to = "stdout";' "$OUTPUT_CONFIG"
+  run grep -F 'log_output_to = "stdout";' "$OUTPUT_CONFIG"
+  [ "$status" -ne 0 ]
   grep -F 'statistics = "no";' "$OUTPUT_CONFIG"
   grep -F 'log_verbosity = 1;' "$OUTPUT_CONFIG"
 }

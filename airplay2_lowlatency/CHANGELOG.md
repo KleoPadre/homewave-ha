@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.5
+
+- Upgrade Shairport Sync to 5.2.1 with its current AirPlay 2 and nqptp runtime.
+- Migrate the PulseAudio output configuration to the Shairport Sync 5 syntax.
+- Keep automatic stereo or multichannel negotiation: a stereo Home Assistant
+  sink receives a compatible stereo mixdown.
+
 ## 0.1.4
 
 - Add selectable balanced (60 dB) and quiet-start (90 dB) per-stream volume curves.
